@@ -1,0 +1,123 @@
+@import "reset.css";
+
+$padding: 10px;
+$padding40: 40px;
+$color:(
+    color1: #fff,
+    color2: #000
+);
+
+@function color($name){
+    @return map-get($color, $name)
+}
+html,body{
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.47;
+}
+
+.todoWrap{
+    max-width: 500px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px #ccc;
+    padding: $padding40;
+
+    .emptyContent{
+        color: #888;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 20px;
+    }
+}
+.formwrap {
+    position: relative;
+    
+    .todo{
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid color(color2);
+        outline: none;
+        height: 35px;
+        padding-right: 50px;
+        box-sizing: border-box;
+    }
+    
+    .btn:focus{
+        outline: 0;
+    }
+    .btn{
+        border: 0;
+        background: transparent;
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+    }
+}
+
+.todoList{
+    padding: $padding40 0;
+
+    .list{
+        padding: $padding;
+        background: color(color1);
+        box-shadow: 0 0 10px #aae2fc;
+        margin-bottom: 20px;
+        display: flex;
+        position: relative;
+    }
+
+    .doneTodo{
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        border: 1px solid color(color2);
+        margin-right: $padding;
+        cursor: pointer;
+    }
+
+    .doneTodo svg{
+        display: none;
+    }
+
+    .list.active svg{
+        display: block;
+    }
+
+    .list.active .userText{
+        text-decoration: line-through;
+    }
+    
+    .deleteTodo{
+        cursor: pointer;
+        display: none;
+        position: absolute;
+        right: 10px;
+    }
+
+    .list:hover .deleteTodo{
+        display: block;
+    }
+    
+}
+
+.navBar{
+
+    li{
+        display: inline-block;
+        padding: 5px 20px;
+        cursor: pointer;
+        border: 1px solid #eee;
+        border-radius: 20px;
+        margin: 0 5px;
+    }
+
+    li.active{
+        border-color: #90dcff;
+    }
+
+    li:hover{
+        border-color: #90dcff;
+    }
+}
