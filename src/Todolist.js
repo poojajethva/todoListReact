@@ -42,7 +42,7 @@ const Todolist = (props) => {
         const StatusBar = (props) => {
             return (
                 <ul className="navBar">
-                <li data-name="all" class="active" onClick={props.click}>All</li>
+                <li data-name="all" className="active" onClick={props.click}>All</li>
                 <li data-name="done" onClick={props.click}>Completed</li>
                 <li data-name="new" onClick={props.click}>Pending</li>
                 </ul>
