@@ -121,21 +121,24 @@ html,body{
 }
 
 .navBar{
-
     li{
         display: inline-block;
+        margin: 0 5px;
+    }
+    li a{
         padding: 5px 20px;
         cursor: pointer;
         border: 1px solid #eee;
         border-radius: 20px;
-        margin: 0 5px;
+        color: #000;
+        text-decoration: none;
     }
 
-    li.active{
+    li a.active{
         border-color: #90dcff;
     }
 
-    li:hover{
+    li a:hover{
         border-color: #90dcff;
     }
 }

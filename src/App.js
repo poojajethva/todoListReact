@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import {BrowserRouter as Router,Switch, Route} from "react-router-dom";
 import UserInput from './UserInput';
-import Todolist from './Todolist';
+import StatusBar from './StatusBar';
+import {All,Pending,Completed} from './components';
 
 export default class Hello extends Component{
     constructor(props){
@@ -8,14 +10,12 @@ export default class Hello extends Component{
         let outputList = JSON.parse(localStorage.getItem("todoList")) || [];
         this.state = {
             output: outputList,
-            inputVal: "",
-            showList: ""
+            inputVal: ""
         };
         this.changeHandler = this.changeHandler.bind(this);
         this.submit = this.submit.bind(this);
         this.toggleClass = this.toggleClass.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
-        console.log(this.props)
     }
     
     changeHandler(e){
@@ -58,35 +58,41 @@ export default class Hello extends Component{
     removeTodo(e){
         const key = e.currentTarget.parentElement.getAttribute('data-akey'); 
         this.setState((state) => {
-            state.output.splice(key,1);
+            const keyPosition = state.output.findIndex(o => {
+                return o.id === key
+            })
+            state.output.splice(keyPosition,1);
             localStorage.setItem("todoList" , JSON.stringify(state.output));
+            console.log(state.output);
             return state.output;
         })
     }
-
-    checkStatus (e) {
-        const showList = e.target.getAttribute("data-name");
-        if (document.querySelector('.navBar li.active') !== null) 
-            document.querySelector('.navBar li.active').classList.remove("active");
-        e.currentTarget.className = "active";
-        this.setState((state) => {
-            return state.showList = showList;
-        })
-    }
-    
-    
-    
     
     render(){
-        let navBar = this.state.output.length > 0 ? 
-        <Todolist.StatusBar click={this.checkStatus.bind(this)} /> : '';
-        let list = this.state.output.length > 0 ? <Todolist.Todolist obj={this.state.output} showList={this.state.showList} click={this.toggleClass} click2={this.removeTodo} /> : <p className="emptyContent">No todo found.</p>;
         return (
-            <div className="todoWrap">
-                <UserInput change={this.changeHandler} submit={this.submit} valueInput={this.state.inputVal}></UserInput>
-                {list}
-                {navBar}
-            </div>
+            <Router>
+                <div className="todoWrap">
+                    <UserInput change={this.changeHandler} submit={this.submit} valueInput={this.state.inputVal}></UserInput>
+                    <Switch>
+                        <Route exact path="/" render={
+                            (props) => (
+                                <All {...props} obj={this.state.output} click={this.toggleClass} click2={this.removeTodo} />
+                            )} 
+                        />
+                        <Route path="/completed" render={
+                            (props) => (
+                                <Completed {...props} obj={this.state.output} click={this.toggleClass} click2={this.removeTodo} />
+                            )} 
+                        />
+                        <Route path="/pending" render={
+                            (props) => (
+                                <Pending {...props} obj={this.state.output} click={this.toggleClass} click2={this.removeTodo} />
+                            )} 
+                        />
+                    </Switch>
+                    <StatusBar />
+                </div>
+            </Router>
         )
     }
 }
